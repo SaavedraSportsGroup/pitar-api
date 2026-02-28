@@ -7,7 +7,6 @@ export class UsuarioController {
       const { q } = req.query;
 
       const usuarios = await UsuarioModel.getAll(q);
-      console.log("usuarios", usuarios);
 
       if (!usuarios) {
         return res.status(500).json({
@@ -108,7 +107,7 @@ export class UsuarioController {
     try {
       const { id } = req.params;
       const { newPassword } = req.body;
-      const user = await UsuarioModel.getById(id);
+      const user = await UsuarioModel.getUserCredentialsById(id);
       if (!user) {
         return res.status(401).json({ message: "Usuario no encontrado" });
       }
@@ -123,11 +122,7 @@ export class UsuarioController {
           .json({ message: "La nueva contraseña es la misma que la anterior" });
       }
 
-      const hashedNewPassword = await UsuarioModel.hashPassword(newPassword);
-      const updatedUsuario = await UsuarioModel.updatePass(
-        id,
-        hashedNewPassword,
-      );
+      const updatedUsuario = await UsuarioModel.updatePass(id, newPassword);
 
       if (!updatedUsuario)
         return res.status(204).json({ error: "Contraseña no actualizada" });
