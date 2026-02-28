@@ -39,6 +39,15 @@ export class UsuarioModel {
     return rows[0];
   }
 
+  static async getUserCredentialsById(id) {
+    const [rows] = await db.query("SELECT * FROM usuarios WHERE id = ?", [id]);
+    return rows[0];
+  }
+
+  static async hashPassword(password) {
+    return await bcrypt.hash(password, 10);
+  }
+
   static async create(
     nombres,
     apellidos,
@@ -50,7 +59,7 @@ export class UsuarioModel {
     const pass =
       "." + nombres.slice(-1) + documento + apellidos.charAt(0) + ".";
     console.log("pass", pass);
-    const pass_hash = await bcrypt.hash(pass, 10);
+    const pass_hash = await this.hashPassword(pass);
 
     const [rows] = await db.execute(
       "CALL p_nuevo_usuario(?, ?, ?, ?, ?, ?, ?, ?)",
@@ -78,10 +87,15 @@ export class UsuarioModel {
   }
 
   static async updatePass(id, newPassword) {
-    await db.execute(
-      "UPDATE usuarios SET pass_hash = ?, pass_fecha_cambio = NOW() WHERE id = ?",
-      [newPassword, id],
-    );
+    console.log("model");
+    console.log("id:", id);
+    console.log("newPassword:", newPassword);
+
+    const hashedPassword = await this.hashPassword(newPassword);
+    await db.execute("UPDATE usuarios SET pass_hash = ? WHERE id = ?", [
+      hashedPassword,
+      id,
+    ]);
     return { message: "Contraseña actualizada exitosamente" };
   }
 
