@@ -5,9 +5,6 @@ export class AuthController {
   static login = async (req, res) => {
     try {
       const { username, password } = req.body;
-      console.log("controller");
-      console.log("username:", username);
-      console.log("password:", password);
       // Validaciones básicas
       if (!username || !password) {
         return res

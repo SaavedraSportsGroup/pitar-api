@@ -7,7 +7,6 @@ export class UsuarioController {
       const { q } = req.query;
 
       const usuarios = await UsuarioModel.getAll(q);
-      console.log("usuarios", usuarios);
 
       if (!usuarios) {
         return res.status(500).json({
@@ -108,7 +107,6 @@ export class UsuarioController {
     try {
       const { id } = req.params;
       const { newPassword } = req.body;
-      console.log("controller");
       const user = await UsuarioModel.getUserCredentialsById(id);
       if (!user) {
         return res.status(401).json({ message: "Usuario no encontrado" });

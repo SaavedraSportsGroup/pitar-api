@@ -58,7 +58,6 @@ export class UsuarioModel {
   ) {
     const pass =
       "." + nombres.slice(-1) + documento + apellidos.charAt(0) + ".";
-    console.log("pass", pass);
     const pass_hash = await this.hashPassword(pass);
 
     const [rows] = await db.execute(
@@ -87,10 +86,6 @@ export class UsuarioModel {
   }
 
   static async updatePass(id, newPassword) {
-    console.log("model");
-    console.log("id:", id);
-    console.log("newPassword:", newPassword);
-
     const hashedPassword = await this.hashPassword(newPassword);
     await db.execute("UPDATE usuarios SET pass_hash = ? WHERE id = ?", [
       hashedPassword,
