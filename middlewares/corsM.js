@@ -1,10 +1,10 @@
 import cors from "cors";
 
-const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
-  : ["http://localhost:5173"];
+export const corsMiddleware = () => {
+  const origins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",").map((origin) => origin.trim())
+    : ["http://localhost:5173"];
 
-export const corsMiddleware = ({ acceptedOrigins = ALLOWED_ORIGINS } = {}) => {
   return cors({
     origin: (origin, callback) => {
       // Permitir solicitudes sin origen (como Postman, curl, o mismo dominio)
@@ -13,7 +13,7 @@ export const corsMiddleware = ({ acceptedOrigins = ALLOWED_ORIGINS } = {}) => {
       }
 
       // Permitir orígenes explícitamente configurados
-      if (acceptedOrigins.includes(origin)) {
+      if (origins.includes(origin)) {
         return callback(null, true);
       }
 
