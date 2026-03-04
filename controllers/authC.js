@@ -15,9 +15,8 @@ export class AuthController {
       // Buscar usuario por username
       const user = await UsuarioModel.getUserCredentials(username);
       if (!user) {
-        return res.status(401).json({ message: "Credenciales inválidas" });
+        return res.status(401).json({ message: "Usuario no encontrado" });
       }
-
       // Verificar contraseña
       const isPasswordValid = await UsuarioModel.verifyPassword(
         password,
