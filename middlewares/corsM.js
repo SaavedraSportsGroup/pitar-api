@@ -1,6 +1,8 @@
 import cors from "cors";
 
-const ALLOWED_ORIGINS = ["http://localhost:5173"];
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["http://localhost:5173"];
 
 export const corsMiddleware = ({ acceptedOrigins = ALLOWED_ORIGINS } = {}) => {
   return cors({
@@ -26,5 +28,7 @@ export const corsMiddleware = ({ acceptedOrigins = ALLOWED_ORIGINS } = {}) => {
       return callback(new Error(`Origen no permitido por CORS: ${origin}`));
     },
     credentials: true,
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   });
 };
