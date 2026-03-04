@@ -31,6 +31,10 @@ app.get("/api", (req, res) => {
   res.status(200).sendFile(path.join(__dirname, "index.html"));
 });
 
+app.use((req, res) => {
+  res.status(404).json({ message: "Ruta no encontrada" });
+});
+
 // Servidor
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
