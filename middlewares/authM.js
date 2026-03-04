@@ -27,8 +27,8 @@ export const AuthMiddleware = async (req, res, next) => {
         .json({ authenticated: false, message: "Usuario no activo" });
     }
 
-    req.user = user; // Adjunta usuario a req para usar en la ruta protegida
-    next(); // Continúa si todo está bien
+    req.user = user;
+    next();
   } catch (error) {
     res.status(401).json({ authenticated: false, message: "Token inválido" });
   }

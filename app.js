@@ -19,6 +19,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Rutas
+app.use("/api/usuarios", usuariosRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/empleados", empleadoRouter);
+
 app.get("/", (req, res) => {
   res.status(200).sendFile(path.join(__dirname, "index.html"));
 });
@@ -26,10 +30,6 @@ app.get("/", (req, res) => {
 app.get("/api", (req, res) => {
   res.status(200).sendFile(path.join(__dirname, "index.html"));
 });
-
-app.use("/api/usuarios", usuariosRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/empleados", empleadoRouter);
 
 // Servidor
 if (process.env.NODE_ENV !== "production") {
