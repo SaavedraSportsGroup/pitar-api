@@ -1,5 +1,0 @@
-{
-  "routes": [
-    { "src": "/favicon.ico", "dest": "" }
-  ]
-}
