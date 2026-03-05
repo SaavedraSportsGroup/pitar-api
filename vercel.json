@@ -1,0 +1,9 @@
+{
+  "builds": [
+    { "src": "api/app.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/favicon.ico", "dest": null },
+    { "src": "/(.*)", "dest": "/api/app.js" }
+  ]
+}
